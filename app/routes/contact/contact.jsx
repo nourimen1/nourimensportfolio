@@ -21,8 +21,8 @@ import styles from './contact.module.css';
 export const meta = () => {
   return baseMeta({
     title: 'Contact',
-    description:
-      'Send me a message if you’re interested in discussing a project or if you just want to say hi',
+      description:
+        'Get in touch with Nour El Imen Darragi if you\'re interested in discussing a project, collaboration opportunities, or if you just want to say hi',
   });
 };
 

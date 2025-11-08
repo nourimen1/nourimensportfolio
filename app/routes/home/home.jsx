@@ -41,8 +41,8 @@ export const links = () => {
 
 export const meta = () => {
   return baseMeta({
-    title: 'Designer + Developer',
-    description: `Design portfolio of ${config.name} — a product designer working on web & mobile apps with a focus on motion, experience design, and accessibility.`,
+    title: 'Software Developer & Project Manager',
+    description: `Portfolio of ${config.name} — a passionate software developer and project manager based in Tunis, working on cutting-edge web and IoT projects.`,
   });
 };
 
@@ -103,13 +103,13 @@ export const Home = () => {
         sectionRef={projectOne}
         visible={visibleSections.includes(projectOne.current)}
         index={1}
-        title="Designing the future of education"
-        description="Designing a platform to help educators build better online courseware"
+        title="VisioSafe"
+        description="A comprehensive security project focused on protecting digital assets and ensuring safe online experiences through innovative security solutions"
         buttonText="View project"
-        buttonLink="/projects/smart-sparrow"
+        buttonLink="#"
         model={{
           type: 'laptop',
-          alt: 'Smart Sparrow lesson builder',
+          alt: 'VisioSafe security project',
           textures: [
             {
               srcSet: `${sprTexture} 1280w, ${sprTextureLarge} 2560w`,
@@ -124,13 +124,13 @@ export const Home = () => {
         sectionRef={projectTwo}
         visible={visibleSections.includes(projectTwo.current)}
         index={2}
-        title="Video game progress tracking"
-        description="Design and development for a video game tracking app built in React Native"
-        buttonText="View website"
-        buttonLink="https://gamestack.hamishw.com"
+        title="Web Development Projects"
+        description="Building modern web applications with React, JavaScript, and Three.js, focusing on interactive user experiences"
+        buttonText="View projects"
+        buttonLink="#"
         model={{
           type: 'phone',
-          alt: 'App login screen',
+          alt: 'Web development projects',
           textures: [
             {
               srcSet: `${gamestackTexture} 375w, ${gamestackTextureLarge} 750w`,
@@ -148,13 +148,13 @@ export const Home = () => {
         sectionRef={projectThree}
         visible={visibleSections.includes(projectThree.current)}
         index={3}
-        title="Biomedical image collaboration"
-        description="Increasing the amount of collaboration in Slice, an app for biomedical imaging"
-        buttonText="View project"
-        buttonLink="/projects/slice"
+        title="Machine Learning & AI Projects"
+        description="Exploring machine learning and artificial intelligence through practical projects and educational initiatives"
+        buttonText="View projects"
+        buttonLink="#"
         model={{
           type: 'laptop',
-          alt: 'Annotating a biomedical image in the Slice app',
+          alt: 'Machine Learning and AI projects',
           textures: [
             {
               srcSet: `${sliceTexture} 800w, ${sliceTextureLarge} 1920w`,
