@@ -16,6 +16,7 @@ export default defineConfig({
   build: {
     assetsInlineLimit: 1024,
     ssrManifest: true,
+    manifest: true,
   },
   server: {
     port: 8888,

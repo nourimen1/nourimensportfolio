@@ -1,48 +1,37 @@
 #!/usr/bin/env node
 /**
- * Ensure Vite manifest is available to both client and server builds
- * - If server .vite is missing but client .vite exists -> copy client -> server
- * - If client .vite is missing but server .vite exists -> copy server -> client
+ * Ensure manifest files are available for SSR
+ * Copies client manifest to server build so Remix can access it at runtime
  */
 const fs = require('fs');
 const path = require('path');
 
 const root = path.join(__dirname, '..');
-const clientViteDir = path.join(root, 'build', 'client', '.vite');
-const serverViteDir = path.join(root, 'build', 'server', '.vite');
-
-function copyDir(src, dest) {
-  if (!fs.existsSync(src)) return false;
-  if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
-  const entries = fs.readdirSync(src, { withFileTypes: true });
-  for (const entry of entries) {
-    const srcPath = path.join(src, entry.name);
-    const destPath = path.join(dest, entry.name);
-    if (entry.isDirectory()) {
-      copyDir(srcPath, destPath);
-    } else if (entry.isFile()) {
-      fs.copyFileSync(srcPath, destPath);
-    }
-  }
-  return true;
-}
+const clientManifest = path.join(root, 'build', 'client', 'manifest.json');
+const serverManifestDir = path.join(root, 'build', 'server', '.vite');
+const serverManifestFile = path.join(serverManifestDir, 'manifest.json');
 
 try {
-  const clientExists = fs.existsSync(clientViteDir);
-  const serverExists = fs.existsSync(serverViteDir);
+  // Ensure server .vite dir exists
+  if (!fs.existsSync(serverManifestDir)) {
+    fs.mkdirSync(serverManifestDir, { recursive: true });
+  }
 
-  if (clientExists && !serverExists) {
-    copyDir(clientViteDir, serverViteDir);
-    console.log(`✓ Copied .vite from client to server (${clientViteDir} -> ${serverViteDir})`);
-  } else if (serverExists && !clientExists) {
-    copyDir(serverViteDir, clientViteDir);
-    console.log(`✓ Copied .vite from server to client (${serverViteDir} -> ${clientViteDir})`);
-  } else if (serverExists && clientExists) {
-    console.log('✓ Both client and server .vite directories exist.');
+  // Copy client manifest to server
+  if (fs.existsSync(clientManifest)) {
+    fs.copyFileSync(clientManifest, serverManifestFile);
+    console.log(`✓ Copied client manifest to server (${clientManifest} -> ${serverManifestFile})`);
   } else {
-    console.warn('⚠ Neither client nor server .vite directories exist; nothing done.');
+    console.warn(`⚠ Client manifest not found at ${clientManifest}`);
+  }
+
+  // Verify both exist
+  const clientExists = fs.existsSync(clientManifest);
+  const serverExists = fs.existsSync(serverManifestFile);
+  if (clientExists && serverExists) {
+    console.log('✓ Both client and server manifests are available.');
   }
 } catch (err) {
-  console.error('Error ensuring manifest:', err);
+  console.error('Error ensuring manifest:', err.message);
   process.exitCode = 1;
 }
