@@ -44,6 +44,9 @@ const ButtonContent = forwardRef(
       target,
       href,
       disabled,
+      unstable_viewTransition,
+      prefetch,
+      to,
       ...rest
     },
     ref
@@ -51,6 +54,15 @@ const ButtonContent = forwardRef(
     const isExternal = isExternalLink(href);
     const defaultComponent = href ? 'a' : 'button';
     const Component = as || defaultComponent;
+
+    // Only pass Remix-specific props when Component is a Remix Link
+    // If 'as' is a string, it's a DOM element name, not a component
+    const isRemixLink = as && typeof as !== 'string' && as === Link;
+    const remixProps = isRemixLink ? {
+      unstable_viewTransition,
+      prefetch,
+      to,
+    } : {};
 
     return (
       <Component
@@ -64,6 +76,7 @@ const ButtonContent = forwardRef(
         target={target || isExternal ? '_blank' : undefined}
         disabled={disabled}
         ref={ref}
+        {...remixProps}
         {...rest}
       >
         {!!icon && (

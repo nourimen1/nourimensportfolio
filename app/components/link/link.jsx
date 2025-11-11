@@ -12,7 +12,7 @@ function isAnchor(href) {
 }
 
 export const Link = forwardRef(
-  ({ rel, target, children, secondary, className, href, ...rest }, ref) => {
+  ({ rel, target, children, secondary, className, href, unstable_viewTransition, prefetch, ...rest }, ref) => {
     const isExternal = href?.includes('://');
     const relValue = rel || (isExternal ? 'noreferrer noopener' : undefined);
     const targetValue = target || (isExternal ? '_blank' : undefined);
@@ -36,7 +36,12 @@ export const Link = forwardRef(
     }
 
     return (
-      <RouterLink unstable_viewTransition prefetch="intent" {...linkProps} to={href}>
+      <RouterLink 
+        unstable_viewTransition={unstable_viewTransition !== false} 
+        prefetch={prefetch || "intent"} 
+        {...linkProps} 
+        to={href}
+      >
         {children}
       </RouterLink>
     );
