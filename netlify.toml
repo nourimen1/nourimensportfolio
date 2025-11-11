@@ -10,59 +10,11 @@
   NODE_VERSION = "20"
   NETLIFY = "true"
 
-# Redirect rules must come BEFORE the catch-all
-# These ensure Netlify serves static files WITHOUT routing to function
+# IMPORTANT: The Netlify function (netlify/functions/server.js) is configured 
+# with excludedPath patterns to NOT handle static assets.
+# Netlify automatically serves all files from build/client without routing them to the function.
 
-# Static files - serve directly from build/client, don't redirect to function
-[[redirects]]
-  from = "/assets/*"
-  to = "/assets/:splat"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/draco/*"
-  to = "/draco/:splat"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/static/*"
-  to = "/static/:splat"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/favicon.*"
-  to = "/favicon.:splat"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/manifest.json"
-  to = "/manifest.json"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/robots.txt"
-  to = "/robots.txt"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/*.css"
-  to = "/:splat.css"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/*.js"
-  to = "/:splat.js"
-  status = 200
-  force = false
-
-# Catch-all for all other requests - route to Remix function (MUST BE LAST)
+# Only for HTML/dynamic routes that don't exist as files
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/server"

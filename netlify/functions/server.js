@@ -8,11 +8,24 @@ const handler = createRequestHandler({
 
 export default handler;
 
-// Handle all page/route requests
-// Static assets from build/client are served automatically by Netlify
-// This function only receives requests that don't match static files
+// Configure function to only handle non-static routes
+// Static assets (CSS, JS, images, fonts) should be served directly by Netlify
 export const config = {
-  path: "/*",
+  path: [
+    "/*",
+  ],
+  // Exclude static asset paths
+  excludedPath: [
+    "/assets/*",
+    "/draco/*",
+    "/static/*",
+    "/favicon.ico",
+    "/favicon.svg",
+    "/manifest.json",
+    "/robots.txt",
+    "/sitemap.xml",
+    "/humans.txt",
+  ],
 };
 
 
