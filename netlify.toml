@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build && cp -r build/server/assets/* build/client/assets/ 2>/dev/null || true"
+  command = "npm run build"
   publish = "build/client"
 
 [functions]
@@ -11,8 +11,37 @@
   NETLIFY = "true"
 
 # Important: Netlify serves static files from build/client BEFORE checking redirects
-# This means static assets (in /assets/, /static/, etc.) will be served directly
-# Only non-static requests will be routed to the Remix function
+# Static assets should NOT be routed to the function
+# Only HTML pages and dynamic routes go to the Remix function
+
+# Exclude static assets from being routed to the function
+[[redirects]]
+  from = "/assets/*"
+  to = "/assets/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/draco/*"
+  to = "/draco/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/static/*"
+  to = "/static/:splat"
+  status = 200
+
+# Favicon and manifest should be served as-is
+[[redirects]]
+  from = "/favicon.*"
+  to = "/favicon.:splat"
+  status = 200
+
+[[redirects]]
+  from = "/manifest.json"
+  to = "/manifest.json"
+  status = 200
+
+# All other requests go to the Remix function
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/server"
