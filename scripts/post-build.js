@@ -1,0 +1,33 @@
+#!/usr/bin/env node
+/**
+ * Post-build script: Copy server assets to client for Netlify deployment.
+ * Ensures CSS and other assets from build/server/assets are available as static files.
+ */
+const fs = require('fs');
+const path = require('path');
+
+const serverAssetsDir = path.join(__dirname, '..', 'build', 'server', 'assets');
+const clientAssetsDir = path.join(__dirname, '..', 'build', 'client', 'assets');
+
+// Ensure client assets directory exists
+if (!fs.existsSync(clientAssetsDir)) {
+  fs.mkdirSync(clientAssetsDir, { recursive: true });
+}
+
+// Copy all files from server assets to client assets
+if (fs.existsSync(serverAssetsDir)) {
+  const files = fs.readdirSync(serverAssetsDir);
+  files.forEach((file) => {
+    const src = path.join(serverAssetsDir, file);
+    const dest = path.join(clientAssetsDir, file);
+    const stat = fs.statSync(src);
+    
+    if (stat.isFile()) {
+      fs.copyFileSync(src, dest);
+      console.log(`✓ Copied ${file}`);
+    }
+  });
+  console.log(`✓ Post-build: Copied server assets to client (${files.length} files)`);
+} else {
+  console.warn(`⚠ Server assets directory not found: ${serverAssetsDir}`);
+}
