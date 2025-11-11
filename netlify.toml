@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "npm run build && cp -r build/server/assets/* build/client/assets/ 2>/dev/null || true"
   publish = "build/client"
 
 [functions]
