@@ -3,13 +3,15 @@
   publish = "build/client"
 
 [functions]
+  directory = "netlify/functions"
   node_bundler = "esbuild"
 
 [build.environment]
   NODE_VERSION = "20"
 
-[[edge_functions]]
-  function = "remix"
-  path = "/*"
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/server"
+  status = 200
 
 
