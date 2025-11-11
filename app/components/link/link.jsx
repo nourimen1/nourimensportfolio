@@ -3,6 +3,9 @@ import { Link as RouterLink } from '@remix-run/react';
 import { classes } from '~/utils/style';
 import styles from './link.module.css';
 
+// Only enable view transitions on client-side to avoid SSR warnings
+const viewTransitionProps = typeof window !== 'undefined' ? { unstable_viewTransition: true } : {};
+
 // File extensions that can be linked to
 const VALID_EXT = ['txt', 'png', 'jpg'];
 
@@ -41,7 +44,7 @@ export const Link = forwardRef(
     
     return (
       <RouterLink 
-        unstable_viewTransition={unstable_viewTransition !== false} 
+        {...viewTransitionProps}
         prefetch={prefetch || "intent"} 
         {...routerLinkProps} 
         to={href}

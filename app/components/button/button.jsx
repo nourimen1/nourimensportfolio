@@ -6,6 +6,9 @@ import { forwardRef } from 'react';
 import { classes } from '~/utils/style';
 import styles from './button.module.css';
 
+// Only enable view transitions on client-side to avoid SSR warnings
+const viewTransitionProps = typeof window !== 'undefined' ? { unstable_viewTransition: true } : {};
+
 function isExternalLink(href) {
   return href?.includes('://');
 }
@@ -17,7 +20,7 @@ export const Button = forwardRef(({ href, ...rest }, ref) => {
 
   return (
     <ButtonContent
-      unstable_viewTransition={true}
+      {...viewTransitionProps}
       as={Link}
       prefetch="intent"
       to={href}
@@ -59,7 +62,7 @@ const ButtonContent = forwardRef(
     // If 'as' is a string, it's a DOM element name, not a component
     const isRemixLink = as && typeof as !== 'string' && as === Link;
     const remixProps = isRemixLink ? {
-      unstable_viewTransition,
+      ...viewTransitionProps,
       prefetch,
       to,
     } : {};

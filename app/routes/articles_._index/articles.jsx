@@ -10,6 +10,9 @@ import { useReducedMotion } from 'framer-motion';
 import { useWindowSize } from '~/hooks';
 import { Link as RouterLink, useLoaderData } from '@remix-run/react';
 import { useState, useEffect } from 'react';
+
+// Only enable view transitions on client-side to avoid SSR warnings
+const viewTransitionProps = typeof window !== 'undefined' ? { unstable_viewTransition: true } : {};
 import { formatDate } from '~/utils/date';
 import { classes, cssProps } from '~/utils/style';
 import styles from './articles.module.css';
@@ -56,7 +59,7 @@ function ArticlesPost({ slug, frontmatter, timecode, index }) {
         </div>
       )}
       <RouterLink
-        unstable_viewTransition={true}
+        {...viewTransitionProps}
         prefetch="intent"
         to={`/articles/${slug}`}
         className={styles.postLink}

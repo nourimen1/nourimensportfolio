@@ -15,6 +15,9 @@ import { cssProps, msToNum, numToMs } from '~/utils/style';
 import { baseMeta } from '~/utils/meta';
 import { Form, useActionData, useNavigation } from '@remix-run/react';
 import { json } from '@remix-run/cloudflare';
+
+// Only enable view transitions on client-side to avoid SSR warnings
+const viewTransitionProps = typeof window !== 'undefined' ? { unstable_viewTransition: true } : {};
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import styles from './contact.module.css';
 
@@ -107,7 +110,7 @@ export const Contact = () => {
       <Transition unmount in={!actionData?.success} timeout={1600}>
         {({ status, nodeRef }) => (
           <Form
-            unstable_viewTransition={true}
+            {...viewTransitionProps}
             className={styles.form}
             method="post"
             ref={nodeRef}

@@ -6,6 +6,9 @@ import { Transition } from '~/components/transition';
 import { useScrollToHash, useWindowSize } from '~/hooks';
 import { Link as RouterLink, useLocation } from '@remix-run/react';
 import { useEffect, useRef, useState } from 'react';
+
+// Only enable view transitions on client-side to avoid SSR warnings
+const viewTransitionProps = typeof window !== 'undefined' ? { unstable_viewTransition: true } : {};
 import { cssProps, media, msToNum, numToMs } from '~/utils/style';
 import { NavToggle } from './nav-toggle';
 import { ThemeToggle } from './theme-toggle';
@@ -142,7 +145,7 @@ export const Navbar = () => {
   return (
     <header className={styles.navbar} ref={headerRef}>
       <RouterLink
-        unstable_viewTransition={true}
+        {...viewTransitionProps}
         prefetch="intent"
         to={location.pathname === '/' ? '/#intro' : '/'}
         data-navbar-item
@@ -157,7 +160,7 @@ export const Navbar = () => {
         <div className={styles.navList}>
           {navLinks.map(({ label, pathname }) => (
             <RouterLink
-              unstable_viewTransition={true}
+              {...viewTransitionProps}
               prefetch="intent"
               to={pathname}
               key={label}
@@ -177,7 +180,7 @@ export const Navbar = () => {
           <nav className={styles.mobileNav} data-visible={visible} ref={nodeRef}>
             {navLinks.map(({ label, pathname }, index) => (
               <RouterLink
-                unstable_viewTransition={true}
+                {...viewTransitionProps}
                 prefetch="intent"
                 to={pathname}
                 key={label}
