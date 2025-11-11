@@ -14,4 +14,8 @@
   to = "/.netlify/functions/server"
   status = 200
 
+[dev]
+  targetPort = 7777
+  autoLaunch = false
+
 
