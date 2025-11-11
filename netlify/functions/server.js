@@ -1,4 +1,4 @@
-import { createRequestHandler } from "@netlify/remix-adapter";
+import { createRequestHandler } from "@netlify/remix-adapter/node";
 import * as build from "../../build/server/index.js";
 
 const handler = createRequestHandler({
