@@ -9,9 +9,6 @@ import {
   useNavigation,
   useRouteError,
 } from '@remix-run/react';
-// Use Node runtime for Netlify, Cloudflare for Cloudflare Pages  
-// Note: This is determined at build time by remix.config.cjs serverBuildTarget
-// For Netlify builds, Remix will use @remix-run/node automatically
 import { createCookieSessionStorage, json } from '@remix-run/cloudflare';
 import { ThemeProvider, themeStyles } from '~/components/theme-provider';
 import GothamBook from '~/assets/fonts/gotham-book.woff2';
@@ -25,7 +22,6 @@ import config from '~/config.json';
 import styles from './root.module.css';
 import './reset.module.css';
 import './global.module.css';
-// dev-watch-trigger: update to trigger build watcher
 
 export const links = () => [
   {
@@ -63,11 +59,7 @@ export const loader = async ({ request, context }) => {
       maxAge: 604_800,
       path: '/',
       sameSite: 'lax',
-      secrets: [
-        (context?.cloudflare?.env?.SESSION_SECRET) || 
-        (process.env.SESSION_SECRET) || 
-        ' ',
-      ],
+      secrets: [context.cloudflare.env.SESSION_SECRET || ' '],
       secure: true,
     },
   });
