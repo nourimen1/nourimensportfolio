@@ -8,13 +8,21 @@ const handler = createRequestHandler({
 
 export default handler;
 
-// Configure function to only handle routes, not static files
-// Netlify automatically serves files from build/client directory
-// This config ensures only actual routes get processed by Remix
+// Exclude static files from being handled by this function
+// Only route actual app paths to Remix
 export const config = {
-  // Only handle actual routes - not static files
-  // Netlify will serve everything else from the build/client directory
-  path: "/*",
+  path: [
+    "/*",
+    "!/assets/*",
+    "!/draco/*",
+    "!/static/*",
+    "!/favicon.*",
+    "!/manifest.json",
+    "!/robots.txt",
+    "!/sitemap.xml",
+    "!/humans.txt",
+  ],
 };
+
 
 

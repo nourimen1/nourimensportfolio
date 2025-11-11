@@ -10,72 +10,11 @@
   NODE_VERSION = "20"
   NETLIFY = "true"
 
-# CRITICAL FIX: Static files must be served FIRST, before the catch-all redirect
-# Use explicit rules for static paths that tell Netlify NOT to redirect them
+# Static files - let Netlify serve these directly (no redirects needed)
+# Netlify automatically serves from publish directory, redirects are for routing only
 
-# These rules explicitly handle static files by rewriting to themselves
-# This prevents the catch-all from intercepting them
-[[redirects]]
-  from = "/icon-*"
-  to = "/icon-:splat"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/shortcut.png"
-  to = "/shortcut.png"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/favicon.*"
-  to = "/favicon.:splat"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/humans.txt"
-  to = "/humans.txt"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/robots.txt"
-  to = "/robots.txt"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/sitemap.xml"
-  to = "/sitemap.xml"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/manifest.json"
-  to = "/manifest.json"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/assets/*"
-  to = "/assets/:splat"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/draco/*"
-  to = "/draco/:splat"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/static/*"
-  to = "/static/:splat"
-  status = 200
-  force = false
-
-# Catch-all: ALL other requests go to Remix function (must be LAST)
+# Catch-all: Route all unmatched paths to Remix server function
+# Netlify will serve files from build/client before this rule is evaluated
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/server"
