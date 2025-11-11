@@ -10,8 +10,9 @@
   NODE_VERSION = "20"
   NETLIFY = "true"
 
-# Route all requests to Remix function (static files are served automatically)
-# This catch-all redirect passes all non-static requests to the Remix handler
+# Important: Netlify serves static files from build/client BEFORE checking redirects
+# This means static assets (in /assets/, /static/, etc.) will be served directly
+# Only non-static requests will be routed to the Remix function
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/server"
