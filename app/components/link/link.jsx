@@ -35,12 +35,17 @@ export const Link = forwardRef(
       );
     }
 
+    // Filter out href and other props that shouldn't be passed to RouterLink
+    // RouterLink uses 'to' instead of 'href'
+    const { href: _, 'data-secondary': dataSecondary, ...routerLinkProps } = linkProps;
+    
     return (
       <RouterLink 
         unstable_viewTransition={unstable_viewTransition !== false} 
         prefetch={prefetch || "intent"} 
-        {...linkProps} 
+        {...routerLinkProps} 
         to={href}
+        data-secondary={dataSecondary}
       >
         {children}
       </RouterLink>
