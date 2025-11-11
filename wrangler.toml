@@ -1,3 +1,6 @@
 kv_namespaces = [
   { id = "MY_KV", binding="MY_KV" }
 ]
+
+# Cloudflare Workers compatibility date (set to the current date to match local warnings)
+compatibility_date = "2025-11-11"
