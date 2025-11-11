@@ -52,6 +52,9 @@ export const loader = async ({ request, context }) => {
   const pathnameSliced = pathname.endsWith('/') ? pathname.slice(0, -1) : url;
   const canonicalUrl = `${config.url}${pathnameSliced}`;
 
+  // Support both Cloudflare (context.cloudflare.env) and Netlify (process.env)
+  const sessionSecret = context?.cloudflare?.env?.SESSION_SECRET || process.env.SESSION_SECRET || ' ';
+
   const { getSession, commitSession } = createCookieSessionStorage({
     cookie: {
       name: '__session',
@@ -59,7 +62,7 @@ export const loader = async ({ request, context }) => {
       maxAge: 604_800,
       path: '/',
       sameSite: 'lax',
-      secrets: [context.cloudflare.env.SESSION_SECRET || ' '],
+      secrets: [sessionSecret],
       secure: true,
     },
   });
