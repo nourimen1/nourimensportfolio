@@ -11,7 +11,8 @@ export async function getPosts() {
       if (slug === undefined) throw new Error(`No route for ${id}`);
 
       const text = await import(`../articles.${slug}.mdx?raw`);
-      const readTime = readingTime(text.default);
+      const textContent = text?.default || '';
+      const readTime = readingTime(textContent);
       const timecode = formatTimecode(readTime);
 
       return {

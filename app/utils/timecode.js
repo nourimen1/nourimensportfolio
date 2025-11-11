@@ -20,6 +20,11 @@ export function zeroPrefix(value) {
 }
 
 export function readingTime(text) {
+  // Ensure text is a string and handle edge cases
+  if (!text || typeof text !== 'string') {
+    return 0; // Return 0 reading time if text is invalid
+  }
+  
   const wpm = 225;
   const words = text.trim().split(/\s+/).length;
   const time = words / wpm;
