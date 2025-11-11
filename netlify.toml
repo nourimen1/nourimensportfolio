@@ -11,41 +11,15 @@
   NETLIFY = "true"
 
 # Important: Netlify serves static files from build/client BEFORE checking redirects
-# Static assets should NOT be routed to the function
-# Only HTML pages and dynamic routes go to the Remix function
+# This catch-all MUST come last and only handle actual page requests
+# Static files are served automatically by Netlify before redirect rules apply
 
-# Exclude static assets from being routed to the function
-[[redirects]]
-  from = "/assets/*"
-  to = "/assets/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/draco/*"
-  to = "/draco/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/static/*"
-  to = "/static/:splat"
-  status = 200
-
-# Favicon and manifest should be served as-is
-[[redirects]]
-  from = "/favicon.*"
-  to = "/favicon.:splat"
-  status = 200
-
-[[redirects]]
-  from = "/manifest.json"
-  to = "/manifest.json"
-  status = 200
-
-# All other requests go to the Remix function
+# All other requests go to the Remix function (this must be LAST)
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/server"
   status = 200
+  conditions = { NOT = { path = ["/assets/*", "/draco/*", "/static/*", "/favicon.*", "/manifest.json", "/*.css", "/*.js", "/*.woff2", "/*.svg", "/*.png", "/*.jpg", "/*.glb", "/*.mp4"] } }
 
 [dev]
   command = "npm run dev"
