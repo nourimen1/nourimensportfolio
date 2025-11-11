@@ -10,23 +10,68 @@
   NODE_VERSION = "20"
   NETLIFY = "true"
 
-# Important: Netlify serves static files from build/client BEFORE checking redirects
-# This catch-all MUST come last and only handle actual page requests
-# Static files are served automatically by Netlify before redirect rules apply
+# Redirect rules must come BEFORE the catch-all
+# These ensure Netlify serves static files WITHOUT routing to function
 
-# All other requests go to the Remix function (this must be LAST)
+# Static files - serve directly from build/client, don't redirect to function
+[[redirects]]
+  from = "/assets/*"
+  to = "/assets/:splat"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/draco/*"
+  to = "/draco/:splat"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/static/*"
+  to = "/static/:splat"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/favicon.*"
+  to = "/favicon.:splat"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/manifest.json"
+  to = "/manifest.json"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots.txt"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/*.css"
+  to = "/:splat.css"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/*.js"
+  to = "/:splat.js"
+  status = 200
+  force = false
+
+# Catch-all for all other requests - route to Remix function (MUST BE LAST)
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/server"
   status = 200
-  conditions = { NOT = { path = ["/assets/*", "/draco/*", "/static/*", "/favicon.*", "/manifest.json", "/*.css", "/*.js", "/*.woff2", "/*.svg", "/*.png", "/*.jpg", "/*.glb", "/*.mp4"] } }
 
 [dev]
   command = "npm run dev"
   targetPort = 8888
   publish = "build/client"
   autoLaunch = false
-  # In dev mode, Netlify proxies all requests to port 8888
-  # The function is only used if the proxy fails or for specific routes
 
 

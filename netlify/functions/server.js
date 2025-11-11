@@ -8,6 +8,9 @@ const handler = createRequestHandler({
 
 export default handler;
 
+// Handle all page/route requests
+// Static assets from build/client are served automatically by Netlify
+// This function only receives requests that don't match static files
 export const config = {
   path: "/*",
 };
