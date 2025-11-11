@@ -1,12 +1,13 @@
 import { createRequestHandler } from "@netlify/remix-adapter";
 import * as build from "../../build/server/index.js";
 
-export const handler = createRequestHandler({
+const handler = createRequestHandler({
   build,
   mode: process.env.NODE_ENV,
 });
 
-// Attach this function to all routes so the adapter receives the full URL
+export default handler;
+
 export const config = {
   path: "/*",
 };
