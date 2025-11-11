@@ -1,3 +1,6 @@
+// Use Node runtime for Netlify, Cloudflare for Cloudflare Pages
+// Note: This is determined at build time by remix.config.cjs serverBuildTarget
+// For Netlify builds, Remix will use @remix-run/node automatically
 import { json, createCookieSessionStorage } from '@remix-run/cloudflare';
 
 export async function action({ request, context }) {
@@ -11,7 +14,11 @@ export async function action({ request, context }) {
       maxAge: 604_800,
       path: '/',
       sameSite: 'lax',
-      secrets: [context.cloudflare.env.SESSION_SECRET || ' '],
+      secrets: [
+        (context?.cloudflare?.env?.SESSION_SECRET) || 
+        (process.env.SESSION_SECRET) || 
+        ' '
+      ],
       secure: true,
     },
   });

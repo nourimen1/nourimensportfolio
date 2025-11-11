@@ -10,13 +10,19 @@
   NODE_VERSION = "20"
   NETLIFY = "true"
 
+# Route all requests to Remix function (static files are served automatically)
+# This catch-all redirect passes all non-static requests to the Remix handler
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/server/:splat"
+  to = "/.netlify/functions/server"
   status = 200
 
 [dev]
-  targetPort = 7777
+  command = "npm run dev"
+  targetPort = 8888
+  publish = "build/client"
   autoLaunch = false
+  # In dev mode, Netlify proxies all requests to port 8888
+  # The function is only used if the proxy fails or for specific routes
 
 

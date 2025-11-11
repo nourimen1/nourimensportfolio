@@ -17,7 +17,7 @@ export default defineConfig({
     assetsInlineLimit: 1024,
   },
   server: {
-    port: 7777,
+    port: 8888,
   },
   plugins: [
     mdx({
@@ -25,8 +25,10 @@ export default defineConfig({
       remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
       providerImportSource: '@mdx-js/react',
     }),
-    remixCloudflareDevProxy(),
+    // Only use Cloudflare dev proxy when not running on Netlify
+    ...(process.env.NETLIFY ? [] : [remixCloudflareDevProxy()]),
     remix({
+      serverBuildTarget: process.env.NETLIFY ? "node" : undefined,
       routes(defineRoutes) {
         return defineRoutes(route => {
           route('/', 'routes/home/route.js', { index: true });
