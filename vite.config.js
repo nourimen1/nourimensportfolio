@@ -15,6 +15,7 @@ export default defineConfig({
   assetsInclude: ['**/*.glb', '**/*.hdr', '**/*.glsl'],
   build: {
     assetsInlineLimit: 1024,
+    ssrManifest: true,
   },
   server: {
     port: 8888,
