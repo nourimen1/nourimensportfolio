@@ -8,24 +8,13 @@ const handler = createRequestHandler({
 
 export default handler;
 
-// Configure function to only handle non-static routes
-// Static assets (CSS, JS, images, fonts) should be served directly by Netlify
+// Configure function to only handle routes, not static files
+// Netlify automatically serves files from build/client directory
+// This config ensures only actual routes get processed by Remix
 export const config = {
-  path: [
-    "/*",
-  ],
-  // Exclude static asset paths
-  excludedPath: [
-    "/assets/*",
-    "/draco/*",
-    "/static/*",
-    "/favicon.ico",
-    "/favicon.svg",
-    "/manifest.json",
-    "/robots.txt",
-    "/sitemap.xml",
-    "/humans.txt",
-  ],
+  // Only handle actual routes - not static files
+  // Netlify will serve everything else from the build/client directory
+  path: "/*",
 };
 
 
