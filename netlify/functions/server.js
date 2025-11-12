@@ -12,6 +12,8 @@ export default handler;
 // This function handles all remaining routes (app paths)
 export const config = {
   path: "/*",
+  // Include the Vite manifest in the function bundle so Remix can access it at runtime
+  assets: ["../../build/server/.vite/manifest.json"],
 };
 
 
