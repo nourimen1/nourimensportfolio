@@ -8,20 +8,10 @@ const handler = createRequestHandler({
 
 export default handler;
 
-// Exclude static files from being handled by this function
-// Only route actual app paths to Remix
+// Netlify will serve static files from publish folder before routing to function
+// This function handles all remaining routes (app paths)
 export const config = {
-  path: [
-    "/*",
-    "!/assets/*",
-    "!/draco/*",
-    "!/static/*",
-    "!/favicon.*",
-    "!/manifest.json",
-    "!/robots.txt",
-    "!/sitemap.xml",
-    "!/humans.txt",
-  ],
+  path: "/*",
 };
 
 
