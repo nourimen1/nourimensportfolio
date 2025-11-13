@@ -12,7 +12,7 @@
 
 # Static files are automatically served from the publish directory (build/client)
 # Netlify serves static files FIRST before applying redirects or invoking functions
-# The redirect below only applies if no static file exists at the requested path
+# The _headers file in build/client/ ensures proper Content-Type headers for CSS and fonts
 
 # Catch-all redirect for Remix SPA routing
 # This routes all non-static requests to the Remix server function
