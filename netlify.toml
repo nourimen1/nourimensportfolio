@@ -11,9 +11,9 @@
   NETLIFY = "true"
 
 # Static files are automatically served from the publish directory (build/client)
-# Netlify serves static files FIRST before routing to functions
+# Netlify serves static files FIRST before applying redirects or invoking functions
 # The _headers file in build/client/ ensures proper Content-Type headers for CSS and fonts
-# The function uses path: "/*" config to handle app routes after static files are served
+# Redirects are defined in public/_redirects which gets copied to build/client during build
 
 [dev]
   command = "npm run dev"

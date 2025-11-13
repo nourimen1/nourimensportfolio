@@ -43,3 +43,14 @@ if (fs.existsSync(publicHeadersPath)) {
 } else {
   console.warn(`⚠ _headers file not found in public/: ${publicHeadersPath}`);
 }
+
+// Ensure _redirects file is copied from public/ to build/client/
+// Vite should copy this automatically, but we ensure it's up to date
+const publicRedirectsPath = path.join(__dirname, '..', 'public', '_redirects');
+const clientRedirectsPath = path.join(__dirname, '..', 'build', 'client', '_redirects');
+if (fs.existsSync(publicRedirectsPath)) {
+  fs.copyFileSync(publicRedirectsPath, clientRedirectsPath);
+  console.log(`✓ Ensured _redirects file is up to date in build/client/`);
+} else {
+  console.warn(`⚠ _redirects file not found in public/: ${publicRedirectsPath}`);
+}

@@ -1,0 +1,8 @@
+# Netlify redirects file
+# This file is copied to build/client during build
+# Static files are served automatically before these rules apply
+
+# Catch-all: Route all requests to Remix server function
+# Static files in /assets/, /draco/, /static/, and root files are served directly before this rule
+/* /.netlify/functions/server 200
+
