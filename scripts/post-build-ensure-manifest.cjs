@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 /**
  * Ensure manifest files are available for SSR
- * Copies client manifest to server build so Remix can access it at runtime
+ * Copies client SSR manifest to server build so Remix can access it at runtime
  */
 const fs = require('fs');
 const path = require('path');
 
 const root = path.join(__dirname, '..');
-const clientManifest = path.join(root, 'build', 'client', 'manifest.json');
+// Vite generates ssr-manifest.json in .vite/ (for SSR usage)
+const clientSsrManifest = path.join(root, 'build', 'client', '.vite', 'ssr-manifest.json');
 const serverManifestDir = path.join(root, 'build', 'server', '.vite');
 const serverManifestFile = path.join(serverManifestDir, 'manifest.json');
 
@@ -17,21 +18,21 @@ try {
     fs.mkdirSync(serverManifestDir, { recursive: true });
   }
 
-  // Copy client manifest to server
-  if (fs.existsSync(clientManifest)) {
-    fs.copyFileSync(clientManifest, serverManifestFile);
-    console.log(`✓ Copied client manifest to server (${clientManifest} -> ${serverManifestFile})`);
+  // Copy client SSR manifest to server
+  if (fs.existsSync(clientSsrManifest)) {
+    fs.copyFileSync(clientSsrManifest, serverManifestFile);
+    console.log(`✓ Copied client SSR manifest to server (${clientSsrManifest} -> ${serverManifestFile})`);
   } else {
-    console.warn(`⚠ Client manifest not found at ${clientManifest}`);
+    console.warn(`⚠ Client SSR manifest not found at ${clientSsrManifest}`);
   }
 
-  // Verify both exist
-  const clientExists = fs.existsSync(clientManifest);
+  // Verify exists
   const serverExists = fs.existsSync(serverManifestFile);
-  if (clientExists && serverExists) {
-    console.log('✓ Both client and server manifests are available.');
+  if (serverExists) {
+    console.log('✓ Server manifest is available.');
   }
 } catch (err) {
   console.error('Error ensuring manifest:', err.message);
   process.exitCode = 1;
 }
+

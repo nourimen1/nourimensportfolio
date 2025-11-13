@@ -1,9 +1,13 @@
 import { createRequestHandler } from "@netlify/remix-adapter";
 import * as build from "../../build/server/index.js";
+// Import the embedded Vite asset manifest so SSR can inject correct link tags
+import manifestFromServer from "../../build/server/manifest.server.js";
 
 const handler = createRequestHandler({
   build,
   mode: process.env.NODE_ENV,
+  // Provide the manifest to Remix so it generates correct <link> tags for CSS
+  manifest: manifestFromServer || undefined,
 });
 
 export default handler;
