@@ -10,15 +10,18 @@
   NODE_VERSION = "20"
   NETLIFY = "true"
 
-# Static files - let Netlify serve these directly (no redirects needed)
-# Netlify automatically serves from publish directory, redirects are for routing only
+# Static files are automatically served from the publish directory before redirects/functions
+# Netlify serves files from build/client first, then applies redirects, then invokes functions
+# The force = false ensures that if a static file exists, it will be served instead of applying the redirect
 
-# Catch-all: Route all unmatched paths to Remix server function
-# Netlify will serve files from build/client before this rule is evaluated
+# Catch-all redirect for Remix SPA routing
+# This routes all non-static requests to the Remix server function
+# Static files (CSS, JS, images, fonts, etc.) in build/client/assets/ are served directly
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/server"
   status = 200
+  force = false
 
 [dev]
   command = "npm run dev"

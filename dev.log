@@ -1,0 +1,35 @@
+
+> dev
+> node ./scripts/dev.cjs && remix vite:dev
+
+__  __  __
+\ \ \ \ \∕
+ \ \∕\ \
+  \∕  \∕
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+[7m[33m warn [39m[27m Fetcher persistence behavior is changing in React Router v7
+[33m┃[39m [90mYou can use the `v3_fetcherPersist` future flag to opt-in early.[39m
+[33m┃[39m [90m-> https://remix.run/docs/en/2.13.1/start/future-flags#v3_fetcherPersist[39m
+[33m┗[39m
+[7m[33m warn [39m[27m Route discovery/manifest behavior is changing in React Router v7
+[33m┃[39m [90mYou can use the `v3_lazyRouteDiscovery` future flag to opt-in early.[39m
+[33m┃[39m [90m-> https://remix.run/docs/en/2.13.1/start/future-flags#v3_lazyRouteDiscovery[39m
+[33m┗[39m
+[7m[33m warn [39m[27m Relative routing behavior for splat routes is changing in React Router v7
+[33m┃[39m [90mYou can use the `v3_relativeSplatPath` future flag to opt-in early.[39m
+[33m┃[39m [90m-> https://remix.run/docs/en/2.13.1/start/future-flags#v3_relativeSplatPath[39m
+[33m┗[39m
+[7m[33m warn [39m[27m Data fetching is changing to a single fetch in React Router v7
+[33m┃[39m [90mYou can use the `v3_singleFetch` future flag to opt-in early.[39m
+[33m┃[39m [90m-> https://remix.run/docs/en/2.13.1/start/future-flags#v3_singleFetch[39m
+[33m┗[39m
+[7m[33m warn [39m[27m The format of errors thrown on aborted requests is changing in React Router v7
+[33m┃[39m [90mYou can use the `v3_throwAbortReason` future flag to opt-in early.[39m
+[33m┃[39m [90m-> https://remix.run/docs/en/2.13.1/start/future-flags#v3_throwAbortReason[39m
+[33m┗[39m
+(node:22032) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m8888[22m/[39m
+[2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
