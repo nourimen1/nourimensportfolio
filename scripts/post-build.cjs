@@ -2,12 +2,15 @@
 /**
  * Post-build script: Copy server assets to client for Netlify deployment.
  * Ensures CSS and other assets from build/server/assets are available as static files.
+ * Also ensures _headers file is copied from public/ to build/client/
  */
 const fs = require('fs');
 const path = require('path');
 
 const serverAssetsDir = path.join(__dirname, '..', 'build', 'server', 'assets');
 const clientAssetsDir = path.join(__dirname, '..', 'build', 'client', 'assets');
+const publicHeadersPath = path.join(__dirname, '..', 'public', '_headers');
+const clientHeadersPath = path.join(__dirname, '..', 'build', 'client', '_headers');
 
 // Ensure client assets directory exists
 if (!fs.existsSync(clientAssetsDir)) {
@@ -30,4 +33,13 @@ if (fs.existsSync(serverAssetsDir)) {
   console.log(`✓ Post-build: Copied server assets to client (${files.length} files)`);
 } else {
   console.warn(`⚠ Server assets directory not found: ${serverAssetsDir}`);
+}
+
+// Ensure _headers file is copied from public/ to build/client/
+// Vite should copy this automatically, but we ensure it's up to date
+if (fs.existsSync(publicHeadersPath)) {
+  fs.copyFileSync(publicHeadersPath, clientHeadersPath);
+  console.log(`✓ Ensured _headers file is up to date in build/client/`);
+} else {
+  console.warn(`⚠ _headers file not found in public/: ${publicHeadersPath}`);
 }

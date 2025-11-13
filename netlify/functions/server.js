@@ -14,8 +14,9 @@ export default handler;
 
 // Netlify will serve static files from publish folder before routing to function
 // This function handles all remaining routes (app paths)
-// We use redirects in netlify.toml instead of path config to ensure static files are served first
+// Static files are served automatically before this function is invoked
 export const config = {
+  path: "/*",
   // Include the Vite manifest in the function bundle so Remix can access it at runtime
   assets: ["../../build/server/.vite/manifest.json"],
 };
