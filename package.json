@@ -7,23 +7,29 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "remix vite:build",
-    "dev": "remix vite:dev",
-    "start": "netlify dev",
+    "build": "remix vite:build && node ./scripts/post-build.cjs && node ./scripts/post-build-ensure-manifest.cjs && node ./scripts/post-build-embed-manifest.cjs",
+    "dev": "node ./scripts/dev.cjs && remix vite:dev",
+    "start": "rimraf .wrangler/tmp && wrangler pages dev ./build/client",
     "postinstall": "node ./scripts/draco.cjs",
-    "deploy": "npm run build && netlify deploy --prod",
+    "deploy": "npm run build && wrangler pages deploy ./build/client --project-name portfolio",
     "dev:storybook": "storybook dev -p 6006",
-    "build:storybook": "storybook build"
+    "build:storybook": "storybook build",
+    "deploy:storybook": "wrangler pages deploy ./storybook-static --project-name portfolio-storybook --branch main",
+    "build:watch": "chokidar \"app/**/*\" -c \"npm run build\"",
+    "dev:pages": "concurrently \"npm run build:watch\" \"wrangler pages dev ./build/client\""
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.515.0",
     "@mdx-js/react": "^3.0.1",
     "@netlify/functions": "^5.1.0",
     "@netlify/remix-adapter": "^2.7.0",
+    "@remix-run/cloudflare": "^2.7.1",
+    "@remix-run/cloudflare-pages": "^2.7.1",
     "@remix-run/node": "^2.7.1",
     "@remix-run/react": "^2.7.1",
     "framer-motion": "11.0.5",
     "isbot": "^4.1.0",
+    "miniflare": "^3.20231030.4",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "rehype-img-size": "^1.0.1",
@@ -59,12 +65,13 @@
     "prop-types": "^15.8.1",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^4.0.0",
-    "retry": "^0.13.1",
     "rimraf": "^5.0.5",
     "storybook": "^7.6.17",
     "vite": "^5.1.0",
     "vite-jsconfig-paths": "^2.0.1",
-    "vite-tsconfig-paths": "^5.1.4"
+    "wrangler": "^4.46.0"
+    ,
+    "retry": "^0.13.1"
   },
   "engines": {
     "node": ">=18"

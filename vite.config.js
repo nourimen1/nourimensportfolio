@@ -1,7 +1,9 @@
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import {
+  vitePlugin as remix,
+  cloudflareDevProxyVitePlugin as remixCloudflareDevProxy,
+} from '@remix-run/dev';
+import { defineConfig } from 'vite';
 import jsconfigPaths from 'vite-jsconfig-paths';
-import { netlifyPlugin } from "@netlify/remix-adapter/plugin";
 import mdx from '@mdx-js/rollup';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
@@ -14,6 +16,11 @@ export default defineConfig({
   assetsInclude: ['**/*.glb', '**/*.hdr', '**/*.glsl'],
   build: {
     assetsInlineLimit: 1024,
+    ssrManifest: true,
+    manifest: true,
+  },
+  server: {
+    port: 8888,
   },
   plugins: [
     mdx({
@@ -21,8 +28,16 @@ export default defineConfig({
       remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
       providerImportSource: '@mdx-js/react',
     }),
-    remix(),
-    netlifyPlugin(),
+    // Only use Cloudflare dev proxy when not running on Netlify
+    ...(process.env.NETLIFY ? [] : [remixCloudflareDevProxy()]),
+    remix({
+      serverBuildTarget: process.env.NETLIFY ? "node" : undefined,
+      routes(defineRoutes) {
+        return defineRoutes(route => {
+          route('/', 'routes/home/route.js', { index: true });
+        });
+      },
+    }),
     jsconfigPaths(),
   ],
 });
