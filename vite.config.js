@@ -13,7 +13,20 @@ import rehypePrism from '@mapbox/rehype-prism';
 
 export default defineConfig({
   base: '/',
-  assetsInclude: ['**/*.glb', '**/*.hdr', '**/*.glsl'],
+  assetsInclude: [
+    '**/*.glb',
+    '**/*.hdr',
+    '**/*.glsl',
+    '**/*.woff2',
+    '**/*.jpg',
+    '**/*.png',
+    '**/*.svg',
+    '**/*.jpeg',
+    '**/*.gif',
+    '**/*.webp',
+    '**/*.ico',
+    '**/*.mp4',
+  ],
   build: {
     assetsInlineLimit: 1024,
     ssrManifest: true,
@@ -30,14 +43,7 @@ export default defineConfig({
     }),
     // Only use Cloudflare dev proxy when not running on Netlify
     ...(process.env.NETLIFY ? [] : [remixCloudflareDevProxy()]),
-    remix({
-      serverBuildTarget: process.env.NETLIFY ? "node" : undefined,
-      routes(defineRoutes) {
-        return defineRoutes(route => {
-          route('/', 'routes/home/route.js', { index: true });
-        });
-      },
-    }),
+    remix(),
     jsconfigPaths(),
   ],
 });
